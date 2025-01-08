@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from dataclasses import dataclass
 from typing import AsyncGenerator, AsyncIterable, ClassVar, Literal
 
@@ -13,6 +14,9 @@ from .base import Speaker, SynthesizeError, common_options
 
 # https://fish.audio/zh-CN/m/59cb5986671546eaa6ca8ae6f29f6d22/
 DEFAULT_VOICE = "59cb5986671546eaa6ca8ae6f29f6d22"
+DEFAULT_DEVELOPER_ID = os.getenv(
+    "TETOS_FISH_DEVELOPER_ID", "e3a12738f6e24e348f9b1b426dd2166a"
+)
 
 
 @dataclass
@@ -28,6 +32,7 @@ class FishSpeaker(Speaker):
     voice: str = DEFAULT_VOICE
     # Normalize text for en & zh, this increase stability for numbers
     normalize: bool = True
+    developer_id: str = DEFAULT_DEVELOPER_ID
 
     async def stream(
         self, text: str, lang: str = "en-US"
@@ -41,7 +46,11 @@ class FishSpeaker(Speaker):
             "normalize": self.normalize,
         }
         async with httpx.AsyncClient(
-            base_url=self.API_URL, headers={"Authorization": f"Bearer {self.api_key}"}
+            base_url=self.API_URL,
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "developer-id": self.developer_id,
+            },
         ) as client:
             async with client.stream(
                 "POST",
@@ -62,7 +71,10 @@ class FishSpeaker(Speaker):
 
         async with httpx.AsyncClient(
             base_url=self.API_URL,
-            headers={"Authorization": f"Bearer {self.api_key}"},
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "developer-id": self.developer_id,
+            },
         ) as client:
             async with aconnect_ws("/v1/tts/live", client=client) as ws:
 
