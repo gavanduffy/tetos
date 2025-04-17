@@ -1,0 +1,23 @@
+# requirements.txt
+fastapi
+uvicorn[standard] # Server to run FastAPI
+# Option 1: If tetos is published on PyPI
+# tetos==<version> # Replace <version> with the specific version if needed
+
+# Option 2: If installing from the local source code (common for Vercel)
+# Add your tetos source directory. Vercel usually builds from the root.
+# Assuming your setup.py or pyproject.toml is correctly configured for `src/tetos`
+# Vercel might handle this automatically if pyproject.toml exists, otherwise specify:
+# -e . # This might work if your pyproject.toml/setup.py is at the root
+
+# --- Explicit Dependencies (Ensure these cover all speakers you use) ---
+openai>=1.0.0
+httpx>=0.20.0
+httpx-ws>=0.4.0
+azure-cognitiveservices-speech>=1.20.0 # For Azure
+google-cloud-texttospeech>=2.10.0 # For Google
+edge-tts>=6.1.0 # For Edge
+mutagen>=1.45.0 # Used in tetos.base
+anyio>=3.5.0 # Used in tetos.base
+ormsgpack>=1.0.0 # Used in tetos.fish
+# Add others if needed based on tetos imports for Baidu, Volc, Minimax, Xunfei
