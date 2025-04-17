@@ -10,10 +10,13 @@ dependencies = [
     "mutagen>=1.47.0",
     "azure-cognitiveservices-speech>=1.37.0",
     "anyio>=4.3.0",
-    "click>=8.1.7",
+    "click>=8.1.7", # Keep for local CLI use
     "google-cloud-texttospeech>=2.16.3",
     "ormsgpack>=1.5.0",
     "httpx-ws>=0.6.2",
+    "httpx>=0.23.0",         # Added explicit dependency
+    "fastapi>=0.90.0",       # Added for web server
+    "uvicorn[standard]>=0.18.0", # Added for web server
 ]
 requires-python = ">=3.8"
 readme = "README.md"
