@@ -1,0 +1,4 @@
+tetos
+fastapi
+uvicorn[standard]
+python-multipart
